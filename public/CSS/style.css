@@ -66,9 +66,10 @@ body{
     justify-content: center;
 }
 
-.f-info-socials i{
+.f-info-socials a i{
     font-size: 1.5rem;
     margin: 0.6rem;
+    color: black;
 }
 
 .f-info-links a{

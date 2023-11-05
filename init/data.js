@@ -14,6 +14,7 @@ const sampleListings = [
     type: 'Point' ,
     coordinates: [139.6500, 35.6764]
   }
+
 },
   {
     title: "Secluded Treehouse Getaway",

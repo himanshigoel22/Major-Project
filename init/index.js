@@ -2,22 +2,47 @@ const mongoose = require("mongoose");
 const initData = require("./data.js");
 const listing = require("../models/listing.js");
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+const connectionString = process.env.ATLASDB_URL;
+mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true });
 
-main().then(() => {
-    console.log("connected to DB");
-})
-.catch((err) => {
-    console.log(err);
-});
+
+
 async function main() {
-    await mongoose.connect(MONGO_URL);
+  try {
+    await mongoose.connect(connectionString, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
+    console.log("Connected to DB");
+
+    // Call the function to initialize the database
+    await initDB();
+  } catch (err) {
+    console.error("Error connecting to the database:", err);
+  }
 }
 
-const initDB = async () =>{
+async function initDB() {
+  try {
+    // Clear existing data in the database (deleteMany)
     await listing.deleteMany({});
-    initData.data = initData.data.map((obj) => ({...obj , owner: "653fed8b298fc665ddf8d692"}));
-    await listing.insertMany(initData.data);
-    console.log("data initialised");
+
+    // Initialize data and insert it into the database (insertMany)
+    const dataWithOwners = initData.data.map((item) => ({
+      ...item,
+      owner: "65477a991f8ff05fb504fd5b", // Replace with a valid owner ID
+    }));
+    await listing.insertMany(dataWithOwners);
+
+    console.log("Data initialized");
+  } catch (err) {
+    console.error("Error initializing data:", err);
+  } finally {
+    // Close the database connection
+    await mongoose.connection.close();
+    console.log("Database connection closed");
+  }
 }
-initDB();
+
+main();
