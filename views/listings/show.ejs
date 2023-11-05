@@ -24,7 +24,7 @@
     <a href="/listing/<%= Listing._id %>/edit" class="btn btn-dark edit-btn col-1 offset-3">Edit</a>
    
     <form method="POST" action="/listing/<%= Listing._id %>?_method=DELETE">
-        <button  class="btn btn-dark offset-5">Delete </button>
+        <button  class="btn btn-dark del-form offset-5">Delete </button>
         
     </form>
     </div>
@@ -93,10 +93,10 @@
       <div class="row">
         <p><b>All Reviews</b></p>
       <%for (review of Listing.reviews) {%>
-      <div class="card col-5 ms-3 mb-4">
-        <div class="card-body">
-          <h5 class="card-title">@<%= review.author.username %></h5>
-          <p class="starability-result card-text" data-rating = "<%=review.rating%>" > </p>
+      <div class="card col-5 ms-3 mb-4 ">
+        <div class="card-body review-inp">
+          <h5 class="card-title review-author">@<%= review.author.username %></h5>
+          <p class="starability-result card-text review-rating" data-rating = "<%=review.rating%>" > </p>
           <p class="card-text"> <%= review.comment %></p>
           
         </div>
