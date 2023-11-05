@@ -15,6 +15,11 @@ router.route("/")
   validateListing,
   wrapAsync (listingController.createListing));
 
+//search route
+
+router.get("/search" , wrapAsync(listingController.searchListing));
+
+
 //new route
 router.get("/new" ,isLoggedIn , 
 wrapAsync (listingController.renderNewForm));
