@@ -3,6 +3,7 @@ const Listing = require("../models/listing.js");
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapToken });
+const nodemailer = require('nodemailer');
 
 module.exports.index =  async(req , res) =>{
     const allListings = await Listing.find({});
@@ -82,3 +83,39 @@ module.exports.destroyListing =  async(req , res) =>{
     req.flash("success" , "Listing Deleted!");
     res.redirect("/listing");
   };
+
+module.exports.enquireListing = async (req, res) => {
+  let {id} = req.params;
+    const Listing = await listing.findById(id).populate("owner");
+    if(!Listing){
+      req.flash("error" , "Listing does not exist!");
+      res.redirect("/listing");
+    }
+    const ownerEmail = Listing.owner.email;
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'your-email@gmail.com',
+        pass: 'your-email-password',
+      },
+    });
+
+    const mailOptions = {
+      from: senderEmail,
+      to: ownerEmail,
+      subject: 'New Inquiry for Your Listing',
+      text: `Hello,\n\n${senderName} has sent an inquiry for your listing. Message: ${message}`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        req.flash("error" , "Internal Server Error!");
+        res.redirect("/listing");
+      } else {
+        req.flash("success" , "Email sent successfully, Listing owner will contact you shortly!");
+        res.redirect("/listing");
+      }
+    });
+  
+};

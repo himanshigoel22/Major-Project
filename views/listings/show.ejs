@@ -19,6 +19,10 @@
         </div>
       </div>
       <br>
+    
+    <div class="btns">
+      <a href="/listing/<%= Listing._id %>/enquire" class="btn btn-dark edit-btn col-1 offset-3">Enquire Here</a>
+    </div>
     <% if (currUser && currUser._id.equals(Listing.owner._id)){ %>
     <div class="btns">
     <a href="/listing/<%= Listing._id %>/edit" class="btn btn-dark edit-btn col-1 offset-3">Edit</a>
@@ -100,10 +104,12 @@
           <p class="card-text"> <%= review.comment %></p>
           
         </div>
+        <% if (currUser && currUser._id.equals(Listing.owner._id)){ %>
         <form class="mb-3 mt-3" method="POST" 
         action="/listing/<%= Listing.id %>/reviews/<%= review._id %>?_method=DELETE">
           <button class="btn btn-sm btn-dark">Delete</button>
         </form>
+        <% } %>
       </div>
       <% } %>
     </div>

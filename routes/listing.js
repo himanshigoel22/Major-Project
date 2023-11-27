@@ -35,3 +35,7 @@ router.get("/:id/edit" , isLoggedIn ,
 isOwner, wrapAsync (listingController.renderEditForm));
 
   module.exports = router;
+
+//enquire route
+router.post("/send-enquiry" , isLoggedIn ,
+wrapAsync(listingController.enquireListing));
