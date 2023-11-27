@@ -42,5 +42,10 @@ isOwner, wrapAsync (listingController.renderEditForm));
   module.exports = router;
 
 //enquire route
+
+router.get("/:id/enquire" ,
+wrapAsync(listingController.renderEnquiryForm) );
+
 router.post("/send-enquiry" , isLoggedIn ,
 wrapAsync(listingController.enquireListing));
+

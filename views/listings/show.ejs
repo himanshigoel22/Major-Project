@@ -20,10 +20,10 @@
       </div>
       <br>
     
-    <div class="btns">
-      <a href="/listing/<%= Listing._id %>/enquire" class="btn btn-dark edit-btn col-1 offset-3">Enquire Here</a>
+    <div class="btns enquire-btn">
+      <a href="/listing/<%= Listing._id %>/enquire" class="btn btn-dark edit-btn  offset-3">Enquire Here</a>
     </div>
-   
+    
     <% if (currUser && currUser._id.equals(Listing.owner._id)){ %>
     <div class="btns">
     <a href="/listing/<%= Listing._id %>/edit" class="btn btn-dark edit-btn col-1 offset-3">Edit</a>

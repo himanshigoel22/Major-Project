@@ -111,7 +111,11 @@ body{
     height: 30vh;
 }
 .btns{
+    
     display: flex;
+}
+.enquire-btn{
+    margin-bottom: 20px;
 }
 .show-card{
     padding-left: 0;
