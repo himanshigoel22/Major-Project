@@ -119,3 +119,13 @@ module.exports.enquireListing = async (req, res) => {
     });
   
 };
+
+module.exports.searchListing = async (req, res) => {
+  const searchQuery = req.query.searchQuery;
+  const listings = await Listing.find({ country: { $regex: searchQuery, $options: 'i' } });
+  if (listings.length === 0){
+    req.flash("error" , "Enter appropriate country name!");
+    res.redirect("/listing");
+  } 
+  res.render("listings/search.ejs", { listings });
+};

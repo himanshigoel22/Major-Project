@@ -33,10 +33,6 @@ async function main() {
     await mongoose.connect(dbUrl);
 }
 
-// app.get("/" , (req , res) =>{
-//     res.send(" hi am root");
-// });
-
 app.set("view engine" , "ejs");
 app.set("views" , path.join(__dirname , "views"));
 app.use(express.urlencoded({extended:true}));
@@ -98,6 +94,6 @@ app.use((err, req, res, next) => {
   res.status(StatusCode).render("listings/error.ejs" , {message});
  });
 
-app.listen(8080 , () =>{
+app.listen(3000 , () =>{
     console.log("app is listening");
 });
