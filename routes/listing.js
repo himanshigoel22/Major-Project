@@ -7,6 +7,7 @@ const multer = require("multer");
 const {storage} = require("../cloudConfig.js")
 const upload = multer({storage});
 
+
 //index & create route
 router.route("/")
 .get( wrapAsync(listingController.index))
@@ -45,7 +46,3 @@ isOwner, wrapAsync (listingController.renderEditForm));
 
 router.get("/:id/enquire" ,
 wrapAsync(listingController.renderEnquiryForm) );
-
-router.post("/send-enquiry" , isLoggedIn ,
-wrapAsync(listingController.enquireListing));
-

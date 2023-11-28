@@ -1,58 +1,64 @@
 <% layout("layouts/boilerplate") -%>
-<body>
-    <div class="row mt-3">
-        <div class="col-8 offset-2">   
-        <h2>Send Enquiry</h2>
-        <br>
-        <form method="POST" 
-        action="/listing/send-enquiry" 
-        class="needs-validation" novalidate
-        enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="name" class="form-label">Your Name</label>
-                <input type="text" class="form-control" id="name" name="senderName" placeholder="Enter your name" required>
-                <div class="invalid-feedback">
-                    Enter a valid name
-                 </div>
-            </div>
-           
-            <div class="mb-3">
-                <label for="email" class="form-label">Your Email</label>
-                <input type="email" class="form-control" id="email" name="senderEmail" placeholder="Enter your email" required>
-                <div class="invalid-feedback">
-                    Enter a valid email
-                 </div>
-            </div>
-    
-            <div class="mb-3">
-                <label for="stayDates" class="form-label">From</label>
-                <input type="date" class="form-control" id="stayDates" name="stayDates" required>
-                <div class="invalid-feedback">
-                    Dates are required
-                 </div>
-            </div>
-            
-            <div class="mb-3">
-                <label for="stayDates" class="form-label">To</label>
-                <input type="date" class="form-control" id="stayDates" name="stayDates" required>
-                <div class="invalid-feedback">
-                    Dates are required
-                 </div>
-            </div>
-    
-            <div class="mb-3">
-                <label for="message" class="form-label">Your message</label>
-                <textarea class="form-control" id="message" name="message" placeholder="Enter your message" required></textarea>
-                <div class="invalid-feedback">
-                    Enter a short message
-                 </div>
-            </div>
-    
-            <button type="submit" class="btn btn-dark edit-btn mt-3">Send Enquiry</button>
-            <br><br><br><br>
-        </form>
-    </div>
-    </div>
-    
-</body>
 
+<body>
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <h2 class="mb-4">Send Enquiry</h2>
+                <form id="enquiryForm" method="POST" action="<%= process.env.SUBMIT_ENQUIRY %>" class="needs-validation"
+                    novalidate enctype="multipart/form-data">
+
+                    <input type="hidden" name="_subject" value="New Inquiry for Your Listing">
+
+                    <div class="mb-3">
+                        <label for="senderName" class="form-label">Your Name</label>
+                        <input type="text" class="form-control" id="senderName" name="senderName"
+                            placeholder="Enter your name" required>
+                        <div class="invalid-feedback">
+                            Please enter a valid name.
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="senderEmail" class="form-label">Your Email</label>
+                        <input type="email" class="form-control" id="senderEmail" name="senderEmail"
+                            placeholder="Enter your email" required>
+                        <div class="invalid-feedback">
+                            Please enter a valid email address.
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="startDate" class="form-label">Check-in Date</label>
+                            <input type="date" class="form-control" id="startDate" name="startDate" required>
+                            <div class="invalid-feedback">
+                                Please select a valid check-in date.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="endDate" class="form-label">Check-out Date</label>
+                            <input type="date" class="form-control" id="endDate" name="endDate" required>
+                            <div class="invalid-feedback">
+                                Please select a valid check-out date.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Your Message</label>
+                        <textarea class="form-control" id="message" name="message"
+                            placeholder="Enter your message" required></textarea>
+                        <div class="invalid-feedback">
+                            Please enter a short message.
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-dark enquire-btn mb-4 mt-3">Send Enquiry</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</body>

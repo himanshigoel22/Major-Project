@@ -4,6 +4,7 @@ const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 const nodemailer = require('nodemailer');
+const User = require("../models/user.js");
 
 module.exports.index =  async(req , res) =>{
     const allListings = await Listing.find({});
@@ -88,53 +89,6 @@ module.exports.destroyListing =  async(req , res) =>{
     res.render("listings/enquire.ejs");
   };
 
-  module.exports.enquireListing = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const { senderName, senderEmail, message } = req.body;
-  
-      const listing = await Listing.findById(id).populate('owner');
-      if (!listing) {
-        req.flash('error', 'Listing does not exist!');
-        return res.redirect('/listing');
-      }
-  
-      const ownerEmail = listing.owner.email;
-  
-      const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: 'your-email@gmail.com',
-          pass: 'your-email-password',
-        },
-      });
-  
-      const mailOptions = {
-        from: senderEmail,
-        to: ownerEmail,
-        subject: 'New Inquiry for Your Listing',
-        text: `Hello,\n\n${senderName} has sent an inquiry for your listing. Message: ${message}`,
-      };
-  
-      // Send the email
-      transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          console.error(error);
-          req.flash('error', 'Internal Server Error! Unable to send email.');
-          res.redirect('/listing');
-        } else {
-          console.log('Email sent: ' + info.response);
-          req.flash('success', 'Email sent successfully. Listing owner will contact you shortly!');
-          res.redirect('/listing');
-        }
-      });
-    } catch (error) {
-      console.error(error);
-      req.flash('error', 'Internal Server Error!');
-      res.redirect('/listing');
-    }
-  };
-
 module.exports.searchListing = async (req, res) => {
   const searchQuery = req.query.searchQuery;
   const listings = await Listing.find({ country: { $regex: searchQuery, $options: 'i' } });
@@ -144,3 +98,4 @@ module.exports.searchListing = async (req, res) => {
   } 
   res.render("listings/search.ejs", { listings });
 };
+
