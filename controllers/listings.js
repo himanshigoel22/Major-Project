@@ -99,44 +99,25 @@ module.exports.searchListing = async (req, res) => {
 };
 
 module.exports.submitEnquiry = async (req, res) => {
-  try {
-      // Extract form data from req.body
-      const { senderName, senderEmail, startDate, endDate, message } = req.body;
+  
+  const { senderName, senderEmail, startDate, endDate, message } = req.body;
+  const formData = {
+      _subject: 'New Inquiry for Your Listing',
+      senderName,
+      senderEmail,
+      startDate,
+      endDate,
+      message,
+  };
 
-      // Prepare data to send to Formspree
-      const formData = {
-          _subject: 'New Inquiry for Your Listing',
-          senderName,
-          senderEmail,
-          startDate,
-          endDate,
-          message,
-      };
+  const response = await axios.post(process.env.SUBMIT_ENQUIRY, formData);
 
-      // Make a POST request to Formspree
-      const response = await axios.post(process.env.SUBMIT_ENQUIRY, formData);
-
-      // Handle success or failure based on Formspree's response
-      if (response.status === 200) {
-          // Flash success message
-          req.flash('success', 'Enquiry submitted successfully!');
-          
-          // Redirect to /listing page
-          res.redirect('/listing');
-      } else {
-          // Flash error message
-          req.flash('error', 'Enquiry submission failed.');
-          
-          // Redirect to /listing page
-          res.redirect('/listing');
-      }
-  } catch (error) {
-      console.error(error);
-      
-      // Flash error message
-      req.flash('error', 'Internal Server Error');
-      
-      // Redirect to /listing page
-      res.redirect('/listing');
+  if (response.status === 200) {
+   
+      req.flash('success', 'Enquiry submitted successfully!');
+  } else {
+     
+      req.flash('error', 'Enquiry submission failed.');
   }
+  res.redirect('/listing');
 };
