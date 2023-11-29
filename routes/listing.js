@@ -46,3 +46,5 @@ isOwner, wrapAsync (listingController.renderEditForm));
 
 router.get("/:id/enquire" ,
 wrapAsync(listingController.renderEnquiryForm) );
+
+router.post('/submit-enquiry', wrapAsync(listingController.submitEnquiry));

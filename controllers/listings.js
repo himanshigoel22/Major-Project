@@ -3,8 +3,7 @@ const Listing = require("../models/listing.js");
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapToken });
-const nodemailer = require('nodemailer');
-const User = require("../models/user.js");
+const axios = require('axios');
 
 module.exports.index =  async(req , res) =>{
     const allListings = await Listing.find({});
@@ -99,3 +98,45 @@ module.exports.searchListing = async (req, res) => {
   res.render("listings/search.ejs", { listings });
 };
 
+module.exports.submitEnquiry = async (req, res) => {
+  try {
+      // Extract form data from req.body
+      const { senderName, senderEmail, startDate, endDate, message } = req.body;
+
+      // Prepare data to send to Formspree
+      const formData = {
+          _subject: 'New Inquiry for Your Listing',
+          senderName,
+          senderEmail,
+          startDate,
+          endDate,
+          message,
+      };
+
+      // Make a POST request to Formspree
+      const response = await axios.post(process.env.SUBMIT_ENQUIRY, formData);
+
+      // Handle success or failure based on Formspree's response
+      if (response.status === 200) {
+          // Flash success message
+          req.flash('success', 'Enquiry submitted successfully!');
+          
+          // Redirect to /listing page
+          res.redirect('/listing');
+      } else {
+          // Flash error message
+          req.flash('error', 'Enquiry submission failed.');
+          
+          // Redirect to /listing page
+          res.redirect('/listing');
+      }
+  } catch (error) {
+      console.error(error);
+      
+      // Flash error message
+      req.flash('error', 'Internal Server Error');
+      
+      // Redirect to /listing page
+      res.redirect('/listing');
+  }
+};
